@@ -35,7 +35,7 @@ export default function App() {
             <Marker key={tree.properties.PrimaryKey}
             latitude={latCoords}
             longitude={lonCoords}>
-              <div>o</div>
+              <div>x</div>
             </Marker>
           )
         })}
