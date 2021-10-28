@@ -23,7 +23,7 @@ export default function App() {
       onViewportChange={( viewport ) => {setViewport(viewport)}}
       mapStyle="mapbox://styles/dod900/ckv9v08x7154f15qs9d29virx"
       >
-        baseline map
+        polygon map
       </ReactMapGL>
     </div>
   )     
