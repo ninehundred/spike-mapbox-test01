@@ -14,7 +14,7 @@ export default function App() {
     height: '100vh',
     zoom: 10
   })
-
+ // 
   return (
     <div>
       <ReactMapGL 
