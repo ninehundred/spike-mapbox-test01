@@ -97,7 +97,7 @@ export default function App() {
   // const data = useMemo(() => {
   //   return allData && updatePercentiles(allData, f => f.properties.income[year]);
   // }, [allData, year]);
-
+  //
 
   return (
     <div>
