@@ -108,8 +108,7 @@ export default function App() {
       mapStyle="mapbox://styles/dod900/ckv9v08x7154f15qs9d29virx"
       onHover={onHover}
       >
-        
-        
+      
         <Source type='geojson' data={allData}>
           <Layer {...boxLayerStyle}/>
         </Source>
@@ -118,7 +117,6 @@ export default function App() {
             <div>Name: {hoverInfo.feature.properties.name}</div>
           </div>
         )}
-
       </ReactMapGL>
     </div>
   )     
