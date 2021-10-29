@@ -1,6 +1,7 @@
 import './App.css';
-import ReactMapGL, { Marker } from 'react-map-gl';
+import ReactMapGL, { Marker, MapContext } from 'react-map-gl';
 import { useState } from 'react';
+import * as React from 'react';
 // import * as hereIsOurData from "somedatasource/..."
 // TODO - test react useState to make api call to get data here.
 //
@@ -14,8 +15,30 @@ export default function App() {
     height: '100vh',
     zoom: 10
   })
- // 
+ 
+  function MyComponent(props) {
+    const {map} = React.useContext(MapContext);
+  
+    if (map) {
+      // do something
+      //console.log('ready for download')
+      const img = map.getCanvas().toDataURL('image/png', 1);
+      //const img = map.getCanvas();
+      // console.log(mapImg);
+      //window.location.href = 'data:application/octet-stream;base64,' + img;
+      let element = <a key='dwnLoadLink' href={img} download="map.png">Download current map</a>
+      return(
+        <div key="downloadLinkContainer" className="App">
+          {map && element}
+        </div>
+      )
+    } else {
+      return <p>Loading...</p>;
+    }
+  }
+
   return (
+    <MapContext.Provider>
     <div>
       <ReactMapGL 
       {...viewport } 
@@ -25,7 +48,11 @@ export default function App() {
       >
         polygon map
       </ReactMapGL>
+      <div>
+            <MyComponent/>
+      </div>
     </div>
+    </MapContext.Provider>
   )     
   
 }
