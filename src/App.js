@@ -1,7 +1,8 @@
 import './App.css';
 import ReactMapGL, { Source, Layer } from 'react-map-gl';
-import { useEffect, useState } from 'react';
-const shapeGeojson = require('./data/test-data-box.json')
+import { useEffect, useState, useCallback } from 'react';
+const shapeGeojson = require('./data/test-data-box.json');
+const multiShapeGeoJson = require('./data/test-data-multiple-poly.json');
 // TODO - test react useState to make api call to get data here.
 //
  
@@ -50,6 +51,53 @@ export default function App() {
     }
   };
 
+  // <Source id="somepoint" type='geojson' data={geojson}>
+  //   <Layer {...pointLayerStyle}/>
+  // </Source>
+
+  // <Source id="geojson-shape" type='geojson' data={shapeGeojson}>
+  //   <Layer {...boxLayerStyle}/>
+  // </Source>
+
+  const [allData, setAllData] = useState(null);
+  const [hoverInfo, setHoverInfo] = useState(null);
+
+
+  // this is where we get and set out data.
+  useEffect(() => {
+    // /* global fetch */
+    // fetch(
+    //   'https://raw.githubusercontent.com/uber/react-map-gl/master/examples/.data/us-income.geojson'
+    // )
+    //   .then(resp => resp.json())
+    //   .then(json => setAllData(json));
+    setAllData(multiShapeGeoJson)
+  }, []);
+
+  const onHover = useCallback(event => {
+    const {
+      features,
+      srcEvent: {offsetX, offsetY}
+    } = event;
+    const hoveredFeature = features && features[0];
+
+    setHoverInfo(
+      hoveredFeature
+        ? {
+            feature: hoveredFeature,
+            x: offsetX,
+            y: offsetY
+          }
+        : null
+    );
+  }, []);
+
+
+  // TODO - research useMemo, see >>> https://reactjs.org/docs/hooks-reference.html
+  // const data = useMemo(() => {
+  //   return allData && updatePercentiles(allData, f => f.properties.income[year]);
+  // }, [allData, year]);
+
 
   return (
     <div>
@@ -58,13 +106,19 @@ export default function App() {
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       onViewportChange={( viewport ) => {setViewport(viewport)}}
       mapStyle="mapbox://styles/dod900/ckv9v08x7154f15qs9d29virx"
+      onHover={onHover}
       >
-      <Source id="geojson-shape" type='geojson' data={shapeGeojson}>
-        <Layer {...boxLayerStyle}/>
-      </Source>
-      <Source id="somepoint" type='geojson' data={geojson}>
-        <Layer {...pointLayerStyle}/>
-      </Source>
+        
+        
+        <Source type='geojson' data={allData}>
+          <Layer {...boxLayerStyle}/>
+        </Source>
+        {hoverInfo && (
+          <div className="tooltip" style={{left: hoverInfo.x, top: hoverInfo.y}}>
+            <div>Name: {hoverInfo.feature.properties.name}</div>
+          </div>
+        )}
+
       </ReactMapGL>
     </div>
   )     
