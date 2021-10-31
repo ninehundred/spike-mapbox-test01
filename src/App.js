@@ -5,7 +5,13 @@ import * as treeData from "./sample-data/tree-data-json-test.json";
 // import * as hereIsOurData from "somedatasource/..."
 // TODO - test react useState to make api call to get data here.
 //
-import { getIBA } from "./util";
+import {
+  getRSPBIBA,
+  getRSPBRes,
+  getNEAncientWoodland,
+  getNENatureReserves,
+  getOSMAddresses,
+} from "./util";
 
 export default function App() {
   const [viewport, setViewport] = useState({
@@ -16,8 +22,11 @@ export default function App() {
     zoom: 10,
   });
 
-  getIBA();
-
+  //getRSPBIBA();
+  //getRSPBRes();
+  //getNEAncientWoodland();
+  //getNENatureReserves();
+  getOSMAddresses();
   return (
     <div>
       <ReactMapGL
